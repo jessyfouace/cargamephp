@@ -1,7 +1,7 @@
 <?php $title = "Edition";
  require '../views/template/header.php' ?>
 <a href="index.php?id=<?php echo $_GET['edit'] ?>&type=<?php echo $_GET['type'] ?>"><-- Retour</a>
-<p><?php echo $message; ?></p>
+<p class="font-weight-bold <?php echo $color; ?>"><?php echo $message; ?></p>
 <form action="edit.php?verif=true&edit=<?php echo $_GET['edit'] ?>&type=<?php echo $_GET['type'] ?>" method="post">
 
 <label for="name">Nom du véhicule:</label><br>

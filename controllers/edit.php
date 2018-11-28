@@ -14,7 +14,6 @@ spl_autoload_register('chargerClasse');
 $bdd = Database::BDD();
 
 $carManager = new CarManager($bdd);
-$objectVehicle = $carManager->getVehicles();
 if (isset($_GET['edit'])) {
     $takeId = $_GET['edit'];
     $takeType = $_GET['type'];
@@ -63,6 +62,7 @@ if (isset($_GET['verif'])) {
                                         'mark' => $mark
                                     ]);
                                     $updateCar = $carManager->update($newCar);
+                                    $objectVehicle = $carManager->getCarById($takeId);
                                 } elseif ($_POST['select'] == 'Camion') {
                                     $truckManager = new TruckManager($bdd);
                                     $objectVehicle = $truckManager->getTruckById($takeId);
@@ -75,6 +75,7 @@ if (isset($_GET['verif'])) {
                                         'mark' => $mark
                                     ]);
                                     $updateTruck = $truckManager->update($newTruck);
+                                    $objectVehicle = $truckManager->getTruckById($takeId);
                                 } elseif ($_POST['select'] == 'Moto') {
                                     $motorbikeManager = new MotorbikeManager($bdd);
                                     $objectVehicle = $motorbikeManager->getMotorbikeById($takeId);
@@ -87,8 +88,12 @@ if (isset($_GET['verif'])) {
                                         'mark' => $mark
                                     ]);
                                     $updateMotorbike = $motorbikeManager->update($newMotorbike);
+                                    $objectVehicle = $motorbikeManager->getMotorbikeById($takeId);
+                                } else {
+                                    $message = 'Il s\'emblerait que le type de voiture ne soit pas bon.';
+                                    $color = 'colorred';
                                 }
-                                header('Refresh: 1.5; URL=index.php');
+                                header('Refresh: 1.5; URL=index.php?id=' . $objectVehicle->getId() . '&type=' . $objectVehicle->getType() . '');
                             }
                         }
                     } else {
