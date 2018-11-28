@@ -22,7 +22,7 @@ if (isset($_GET['verif'])) {
             $select = htmlspecialchars($_POST['select']);
             if ($_POST['doors'] >= 0) {
                 $doors = htmlspecialchars($_POST['doors']);
-                if (!empty($_POST['weight'])) {
+                if ($_POST['weight'] >= 0) {
                     $weight = htmlspecialchars($_POST['weight']);
                     if (!empty($_POST['mark'])) {
                         $mark = htmlspecialchars($_POST['mark']);
