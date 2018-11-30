@@ -30,9 +30,9 @@ if (isset($_GET['verif'])) {
                             if (intval($_POST['weight']) >= 0) {
                                 $doors = intval($_POST['doors']);
                                 $weight = intval($_POST['weight']);
-                                $message = 'Envois en cours.';
-                                $color = 'colorgreen';
                                 if ($_POST['select'] == 'Voiture') {
+                                    $message = 'Envois en cours.';
+                                    $color = 'colorgreen';
                                     $carManager = new CarManager($bdd);
                                     $newCar = new Car([
                                         'name' => $name,
@@ -42,7 +42,10 @@ if (isset($_GET['verif'])) {
                                         'mark' => $mark
                                     ]);
                                     $addCar = $carManager->addCar($newCar);
+                                    header('Refresh: 1.5; URL=addVehicle.php');
                                 } elseif ($_POST['select'] == 'Camion') {
+                                    $message = 'Envois en cours.';
+                                    $color = 'colorgreen';
                                     $truckManager = new TruckManager($bdd);
                                     $newTruck = new Truck([
                                         'name' => $name,
@@ -52,7 +55,10 @@ if (isset($_GET['verif'])) {
                                         'mark' => $mark
                                     ]);
                                     $addTruck = $truckManager->addTruck($newTruck);
+                                    header('Refresh: 1.5; URL=addVehicle.php');
                                 } elseif ($_POST['select'] == 'Moto') {
+                                    $message = 'Envois en cours.';
+                                    $color = 'colorgreen';
                                     $motorbikeManager = new MotorbikeManager($bdd);
                                     $newMotorbike = new Motorbike([
                                         'name' => $name,
@@ -62,8 +68,12 @@ if (isset($_GET['verif'])) {
                                         'mark' => $mark
                                     ]);
                                     $addMotorbike = $motorbikeManager->addMotorbike($newMotorbike);
+                                    header('Refresh: 1.5; URL=addVehicle.php');
+                                } else {
+                                    $message = 'Il s\'emblerait que le type de voiture ne soit pas bon.';
+                                    $color = 'colorred';
+                                    header('Refresh: 1.5; URL=addVehicle.php');
                                 }
-                                header('Refresh: 1.5; URL=addVehicle.php');
                             }
                         }
                     } else {
