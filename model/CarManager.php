@@ -2,12 +2,10 @@
 class CarManager
 {
     private $_bdd;
-
     public function __construct(PDO $bdd)
     {
         $this->setDb($bdd);
     }
-
     /**
      * Add new Car
      *
@@ -22,10 +20,8 @@ class CarManager
         $addBdd->bindValue(':doors', $car->getDoor(), PDO::PARAM_INT);
         $addBdd->bindValue(':weight', $car->getWeight(), PDO::PARAM_INT);
         $addBdd->bindValue(':mark', $car->getMark(), PDO::PARAM_STR);
-
         $addBdd->execute();
     }
-
     /**
      * delete car by id
      *
@@ -36,7 +32,6 @@ class CarManager
     {
         $this->_bdd->exec('DELETE FROM vehicles WHERE id = '.$car->getId());
     }
-
     /**
      * get one car by id
      *
@@ -46,19 +41,15 @@ class CarManager
     public function getCarById(int $id)
     {
         $car;
-
         $takeBdd = $this->_bdd->prepare('SELECT * FROM vehicles WHERE id = :id');
         $takeBdd->bindValue(':id', $id, PDO::PARAM_INT);
         $takeBdd->execute();
-
         $takeAllBdd = $takeBdd->fetchAll();
         foreach ($takeAllBdd as $oneCar) {
             $car = new Car($oneCar);
         }
-
         return $car;
     }
-
     /**
      * get all cars
      *
@@ -67,7 +58,6 @@ class CarManager
     public function getCars()
     {
         $cars = [];
-
         $takeBdd = $this->_bdd->prepare('SELECT * FROM vehicles WHERE type = :cars');
         $takeBdd->bindValue(':cars', 'Voiture', PDO::PARAM_STR);
         $takeBdd->execute();
@@ -75,11 +65,8 @@ class CarManager
         foreach ($takeAllBdd as $allCars) {
             $cars[] = new Car($allCars);
         }
-
         return $cars;
     }
-
-
     /**
      * get all vehicle
      *
@@ -88,17 +75,14 @@ class CarManager
     public function getVehicles()
     {
         $vehicles = [];
-
         $takeBdd = $this->_bdd->prepare('SELECT * FROM vehicles ORDER BY id DESC');
         $takeBdd->execute();
         $takeAllBdd = $takeBdd->fetchAll();
         foreach ($takeAllBdd as $allVehicles) {
             $vehicles[] = new Car($allVehicles);
         }
-
         return $vehicles;
     }
-
     /**
      * update object by id
      *
@@ -114,10 +98,8 @@ class CarManager
         $updateBdd->bindValue(':doors', $car->getDoor(), PDO::PARAM_INT);
         $updateBdd->bindValue(':weight', $car->getWeight(), PDO::PARAM_INT);
         $updateBdd->bindValue(':mark', $car->getMark(), PDO::PARAM_STR);
-
         $updateBdd->execute();
     }
-
     /**
      * set the bdd
      *

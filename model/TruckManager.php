@@ -2,12 +2,10 @@
 class TruckManager
 {
     private $_bdd;
-
     public function __construct(PDO $bdd)
     {
         $this->setDb($bdd);
     }
-
     /**
      * Add new Truck
      *
@@ -22,10 +20,8 @@ class TruckManager
         $addBdd->bindValue(':doors', $truck->getDoor(), PDO::PARAM_INT);
         $addBdd->bindValue(':weight', $truck->getWeight(), PDO::PARAM_INT);
         $addBdd->bindValue(':mark', $truck->getMark(), PDO::PARAM_STR);
-
         $addBdd->execute();
     }
-
     /**
      * delete truck by id
      *
@@ -36,7 +32,6 @@ class TruckManager
     {
         $this->_bdd->exec('DELETE FROM vehicles WHERE id = '.$truck->getId());
     }
-
     /**
      * get one truck by id
      *
@@ -46,19 +41,15 @@ class TruckManager
     public function getTruckById(int $id)
     {
         $truck;
-
         $takeBdd = $this->_bdd->prepare('SELECT * FROM vehicles WHERE id = :id');
         $takeBdd->bindValue(':id', $id, PDO::PARAM_INT);
         $takeBdd->execute();
-
         $takeAllBdd = $takeBdd->fetchAll();
         foreach ($takeAllBdd as $oneTruck) {
             $truck = new Truck($oneTruck);
         }
-
         return $truck;
     }
-
     /**
      * get all trucks
      *
@@ -67,7 +58,6 @@ class TruckManager
     public function getTrucks()
     {
         $trucks = [];
-
         $takeBdd = $this->_bdd->prepare('SELECT * FROM vehicles WHERE type = :trucks');
         $takeBdd->bindValue(':trucks', 'truck', PDO::PARAM_STR);
         $takeBdd->execute();
@@ -75,10 +65,8 @@ class TruckManager
         foreach ($takeAllBdd as $allTrucks) {
             $trucks[] = new Truck($allTrucks);
         }
-
         return $trucks;
     }
-
     /**
      * update object by id
      *
@@ -94,10 +82,8 @@ class TruckManager
         $updateBdd->bindValue(':doors', $truck->getDoor(), PDO::PARAM_INT);
         $updateBdd->bindValue(':weight', $truck->getWeight(), PDO::PARAM_INT);
         $updateBdd->bindValue(':mark', $truck->getMark(), PDO::PARAM_STR);
-
         $updateBdd->execute();
     }
-
     /**
      * set the bdd
      *

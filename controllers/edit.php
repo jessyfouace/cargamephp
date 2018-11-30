@@ -35,15 +35,15 @@ $message = 'Veuillez remplir tous les champ.';
 $color = 'colorblack';
 if (isset($_GET['verif'])) {
     if (!empty($_POST['name'])) {
-        $name = htmlspecialchars($_POST['name']);
+        $name = htmlspecialchars(strip_tags($_POST['name']));
         if (!empty($_POST['select'])) {
-            $select = htmlspecialchars($_POST['select']);
+            $select = htmlspecialchars(strip_tags($_POST['select']));
             if ($_POST['doors'] >= 0) {
-                $doors = htmlspecialchars($_POST['doors']);
-                if (!empty($_POST['weight'])) {
-                    $weight = htmlspecialchars($_POST['weight']);
+                $doors = htmlspecialchars(strip_tags($_POST['doors']));
+                if ($_POST['weight'] >= 0) {
+                    $weight = htmlspecialchars(strip_tags($_POST['weight']));
                     if (!empty($_POST['mark'])) {
-                        $mark = htmlspecialchars($_POST['mark']);
+                        $mark = htmlspecialchars(strip_tags($_POST['mark']));
                         if (intval($_POST['doors']) >= 0) {
                             if (intval($_POST['weight']) >= 0) {
                                 $doors = intval($_POST['doors']);

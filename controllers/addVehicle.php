@@ -17,22 +17,22 @@ $message = 'Veuillez remplir tous les champ.';
 $color = 'colorblack';
 if (isset($_GET['verif'])) {
     if (!empty($_POST['name'])) {
-        $name = htmlspecialchars($_POST['name']);
+        $name = htmlspecialchars(strip_tags($_POST['name']));
         if (!empty($_POST['select'])) {
-            $select = htmlspecialchars($_POST['select']);
+            $select = htmlspecialchars(strip_tags($_POST['select']));
             if ($_POST['doors'] >= 0) {
-                $doors = htmlspecialchars($_POST['doors']);
-                if (!empty($_POST['weight'])) {
-                    $weight = htmlspecialchars($_POST['weight']);
+                $doors = htmlspecialchars(strip_tags($_POST['doors']));
+                if ($_POST['weight'] >= 0) {
+                    $weight = htmlspecialchars(strip_tags($_POST['weight']));
                     if (!empty($_POST['mark'])) {
-                        $mark = htmlspecialchars($_POST['mark']);
+                        $mark = htmlspecialchars(strip_tags($_POST['mark']));
                         if (intval($_POST['doors']) >= 0) {
                             if (intval($_POST['weight']) >= 0) {
                                 $doors = intval($_POST['doors']);
                                 $weight = intval($_POST['weight']);
-                                $message = 'Envois en cours.';
-                                $color = 'colorgreen';
                                 if ($_POST['select'] == 'Voiture') {
+                                    $message = 'Envois en cours.';
+                                    $color = 'colorgreen';
                                     $carManager = new CarManager($bdd);
                                     $newCar = new Car([
                                         'name' => $name,
@@ -42,7 +42,10 @@ if (isset($_GET['verif'])) {
                                         'mark' => $mark
                                     ]);
                                     $addCar = $carManager->addCar($newCar);
+                                    header('Refresh: 1.5; URL=addVehicle.php');
                                 } elseif ($_POST['select'] == 'Camion') {
+                                    $message = 'Envois en cours.';
+                                    $color = 'colorgreen';
                                     $truckManager = new TruckManager($bdd);
                                     $newTruck = new Truck([
                                         'name' => $name,
@@ -52,7 +55,10 @@ if (isset($_GET['verif'])) {
                                         'mark' => $mark
                                     ]);
                                     $addTruck = $truckManager->addTruck($newTruck);
+                                    header('Refresh: 1.5; URL=addVehicle.php');
                                 } elseif ($_POST['select'] == 'Moto') {
+                                    $message = 'Envois en cours.';
+                                    $color = 'colorgreen';
                                     $motorbikeManager = new MotorbikeManager($bdd);
                                     $newMotorbike = new Motorbike([
                                         'name' => $name,
@@ -62,8 +68,12 @@ if (isset($_GET['verif'])) {
                                         'mark' => $mark
                                     ]);
                                     $addMotorbike = $motorbikeManager->addMotorbike($newMotorbike);
+                                    header('Refresh: 1.5; URL=addVehicle.php');
+                                } else {
+                                    $message = 'Il s\'emblerait que le type de voiture ne soit pas bon.';
+                                    $color = 'colorred';
+                                    header('Refresh: 1.5; URL=addVehicle.php');
                                 }
-                                header('Refresh: 1.5; URL=addVehicle.php');
                             }
                         }
                     } else {

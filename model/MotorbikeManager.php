@@ -2,12 +2,10 @@
 class MotorbikeManager
 {
     private $_bdd;
-
     public function __construct(PDO $bdd)
     {
         $this->setDb($bdd);
     }
-
     /**
      * Add new Motorbike
      *
@@ -22,10 +20,8 @@ class MotorbikeManager
         $addBdd->bindValue(':doors', $motorbike->getDoor(), PDO::PARAM_INT);
         $addBdd->bindValue(':weight', $motorbike->getWeight(), PDO::PARAM_INT);
         $addBdd->bindValue(':mark', $motorbike->getMark(), PDO::PARAM_STR);
-
         $addBdd->execute();
     }
-
     /**
      * delete Motorbike by id
      *
@@ -36,7 +32,6 @@ class MotorbikeManager
     {
         $this->_bdd->exec('DELETE FROM vehicles WHERE id = '.$motorbike->getId());
     }
-
     /**
      * get one motorbike by id
      *
@@ -46,19 +41,15 @@ class MotorbikeManager
     public function getMotorbikeById(int $id)
     {
         $motorbike;
-
         $takeBdd = $this->_bdd->prepare('SELECT * FROM vehicles WHERE id = :id');
         $takeBdd->bindValue(':id', $id, PDO::PARAM_INT);
         $takeBdd->execute();
-
         $takeAllBdd = $takeBdd->fetchAll();
         foreach ($takeAllBdd as $oneMotorbike) {
             $motorbike = new Motorbike($oneMotorbike);
         }
-
         return $motorbike;
     }
-
     /**
      * get all motorbikes
      *
@@ -67,7 +58,6 @@ class MotorbikeManager
     public function getMotorbikes()
     {
         $motorbikes = [];
-
         $takeBdd = $this->_bdd->prepare('SELECT * FROM vehicles WHERE type = :motorbikes');
         $takeBdd->bindValue(':motorbikes', 'Moto', PDO::PARAM_STR);
         $takeBdd->execute();
@@ -75,10 +65,8 @@ class MotorbikeManager
         foreach ($takeAllBdd as $allMotorbikes) {
             $motorbikes[] = new Motorbike($allMotorbikes);
         }
-
         return $motorbikes;
     }
-
     /**
      * update object by id
      *
@@ -94,10 +82,8 @@ class MotorbikeManager
         $updateBdd->bindValue(':doors', $motorbike->getDoor(), PDO::PARAM_INT);
         $updateBdd->bindValue(':weight', $motorbike->getWeight(), PDO::PARAM_INT);
         $updateBdd->bindValue(':mark', $motorbike->getMark(), PDO::PARAM_STR);
-
         $updateBdd->execute();
     }
-
     /**
      * set the bdd
      *
