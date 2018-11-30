@@ -13,22 +13,20 @@ spl_autoload_register('chargerClasse');
 
 $bdd = Database::BDD();
 if (!isset($_GET['id'])) {
-    $carManager = new CarManager($bdd);
-    $objectVehicle = $carManager->getVehicles();
+    $vehicleManager = new VehiculeManager($bdd);
+    $objectVehicle = $vehicleManager->getVehicles();
 }
 
 if (isset($_GET['id'])) {
     $takeId = $_GET['id'];
     $takeType = $_GET['type'];
+    $takeVehicule = new VehiculeManager($bdd);
     if ($takeType == "Moto") {
-        $takeVehicle = new MotorbikeManager($bdd);
-        $objectVehicle = $takeVehicle->getMotorbikeById($takeId);
+        $objectVehicle = $takeVehicule->getVehicleById($takeId);
     } elseif ($takeType == "Voiture") {
-        $takeVehicle = new CarManager($bdd);
-        $objectVehicle = $takeVehicle->getCarById($takeId);
+        $objectVehicle = $takeVehicule->getVehicleById($takeId);
     } elseif ($takeType == "Camion") {
-        $takeVehicle = new TruckManager($bdd);
-        $objectVehicle = $takeVehicle->getTruckById($takeId);
+        $objectVehicle = $takeVehicule->getVehicleById($takeId);
     }
 }
 
@@ -36,20 +34,18 @@ if (isset($_GET['remove'])) {
     if (isset($_GET['type'])) {
         $takeId = $_GET['remove'];
         $takeType = $_GET['type'];
+        $takeVehicle = new VehiculeManager($bdd);
         if ($takeType == "Moto") {
-            $takeVehicle = new MotorbikeManager($bdd);
-            $objectVehicle = $takeVehicle->getMotorbikeById($takeId);
-            $removeVehicle = $takeVehicle->deleteMotorbike($objectVehicle);
+            $objectVehicle = $takeVehicle->getVehicleById($takeId);
+            $removeVehicle = $takeVehicle->deleteVehicule($objectVehicle);
             header('location: index.php');
         } elseif ($takeType == "Voiture") {
-            $takeVehicle = new CarManager($bdd);
-            $objectVehicle = $takeVehicle->getCarById($takeId);
-            $removeVehicle = $takeVehicle->deleteCar($objectVehicle);
+            $objectVehicle = $takeVehicle->getVehicleById($takeId);
+            $removeVehicle = $takeVehicle->deleteVehicule($objectVehicle);
             header('location: index.php');
         } elseif ($takeType == "Camion") {
-            $takeVehicle = new TruckManager($bdd);
-            $objectVehicle = $takeVehicle->getTruckById($takeId);
-            $removeVehicle = $takeVehicle->deleteTruck($objectVehicle);
+            $objectVehicle = $takeVehicle->getVehicleById($takeId);
+            $removeVehicle = $takeVehicle->deleteVehicule($objectVehicle);
             header('location: index.php');
         } else {
             header('location: index.php');

@@ -13,19 +13,17 @@ spl_autoload_register('chargerClasse');
 
 $bdd = Database::BDD();
 
-$carManager = new CarManager($bdd);
+$vehicleManager = new VehiculeManager($bdd);
 if (isset($_GET['edit'])) {
     $takeId = $_GET['edit'];
     $takeType = $_GET['type'];
+    $takeVehicle = new VehiculeManager($bdd);
     if ($takeType == "Moto") {
-        $takeVehicle = new MotorbikeManager($bdd);
-        $objectVehicle = $takeVehicle->getMotorbikeById($takeId);
+        $objectVehicle = $takeVehicle->getVehicleById($takeId);
     } elseif ($takeType == "Voiture") {
-        $takeVehicle = new CarManager($bdd);
-        $objectVehicle = $takeVehicle->getCarById($takeId);
+        $objectVehicle = $takeVehicle->getVehicleById($takeId);
     } elseif ($takeType == "Camion") {
-        $takeVehicle = new TruckManager($bdd);
-        $objectVehicle = $takeVehicle->getTruckById($takeId);
+        $objectVehicle = $takeVehicle->getVehicleById($takeId);
     } else {
         header('location: index.php');
     }
@@ -50,9 +48,9 @@ if (isset($_GET['verif'])) {
                                 $weight = intval($_POST['weight']);
                                 $message = 'Envois en cours.';
                                 $color = 'colorgreen';
+                                $vehiculeManager = new VehiculeManager($bdd);
                                 if ($_POST['select'] == 'Voiture') {
-                                    $carManager = new CarManager($bdd);
-                                    $objectVehicle = $carManager->getCarById($takeId);
+                                    $objectVehicle = $vehiculeManager->getVehicleById($takeId);
                                     $newCar = new Car([
                                         'id' => $objectVehicle->getId(),
                                         'name' => $name,
@@ -61,11 +59,10 @@ if (isset($_GET['verif'])) {
                                         'weight' => $weight,
                                         'mark' => $mark
                                     ]);
-                                    $updateCar = $carManager->update($newCar);
-                                    $objectVehicle = $carManager->getCarById($takeId);
+                                    $updateCar = $vehiculeManager->update($newCar);
+                                    $objectVehicle = $vehiculeManager->getVehicleById($takeId);
                                 } elseif ($_POST['select'] == 'Camion') {
-                                    $truckManager = new TruckManager($bdd);
-                                    $objectVehicle = $truckManager->getTruckById($takeId);
+                                    $objectVehicle = $vehiculeManager->getVehicleById($takeId);
                                     $newTruck = new Truck([
                                         'id' => $objectVehicle->getId(),
                                         'name' => $name,
@@ -74,11 +71,10 @@ if (isset($_GET['verif'])) {
                                         'weight' => $weight,
                                         'mark' => $mark
                                     ]);
-                                    $updateTruck = $truckManager->update($newTruck);
-                                    $objectVehicle = $truckManager->getTruckById($takeId);
+                                    $updateTruck = $vehiculeManager->update($newTruck);
+                                    $objectVehicle = $vehiculeManager->getVehicleById($takeId);
                                 } elseif ($_POST['select'] == 'Moto') {
-                                    $motorbikeManager = new MotorbikeManager($bdd);
-                                    $objectVehicle = $motorbikeManager->getMotorbikeById($takeId);
+                                    $objectVehicle = $vehiculeManager->getVehicleById($takeId);
                                     $newMotorbike = new Motorbike([
                                         'id' => $objectVehicle->getId(),
                                         'name' => $name,
@@ -87,8 +83,8 @@ if (isset($_GET['verif'])) {
                                         'weight' => $weight,
                                         'mark' => $mark
                                     ]);
-                                    $updateMotorbike = $motorbikeManager->update($newMotorbike);
-                                    $objectVehicle = $motorbikeManager->getMotorbikeById($takeId);
+                                    $updateMotorbike = $vehiculeManager->update($newMotorbike);
+                                    $objectVehicle = $vehiculeManager->getVehicleById($takeId);
                                 } else {
                                     $message = 'Il s\'emblerait que le type de voiture ne soit pas bon.';
                                     $color = 'colorred';
